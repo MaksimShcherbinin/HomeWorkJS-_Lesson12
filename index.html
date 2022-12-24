@@ -169,6 +169,8 @@
 
     <script src="data.js"></script>
     <script>
+        // HomeWork_11
+
         const productsData = JSON.parse(productsItems);
 
         productsData.forEach(element => {
@@ -197,7 +199,8 @@
 
             const itemImgLinkEl = document.createElement('a');
             itemImgLinkEl.classList.add('item-img__link');
-            itemImgLinkEl.href = element.link;
+            // itemImgLinkEl.href = element.link;
+            itemImgLinkEl.name = element.id;
             productsItemImgFrontEl.appendChild(itemImgLinkEl);
 
             const productsItemImgHoverEl = document.createElement('img');
@@ -222,6 +225,126 @@
             productsItemPriceEl.textContent = element.price;
             productsItemDescEl.appendChild(productsItemPriceEl);
         });
+
+        // HomeWork_12
+
+        const createBasket = () => {
+            const cartItemsEl = document.createElement('div');
+            cartItemsEl.classList.add('cart__items');
+            cartItemsEl.classList.add('center');
+            document.querySelector('.fetured').after(cartItemsEl);
+
+            const cartItemsTitleEl = document.createElement('h3');
+            cartItemsTitleEl.classList.add('cart__items-title');
+            cartItemsTitleEl.textContent = 'Cart Items';
+            cartItemsEl.prepend(cartItemsTitleEl);
+
+            const cartItemsBoxEl = document.createElement('div');
+            cartItemsBoxEl.classList.add('cart__items-box');
+            cartItemsEl.appendChild(cartItemsBoxEl);
+        };
+
+        const createItem = (obj) => {
+            const item = document.getElementById(obj.id);
+            if (item) {
+                ++obj.quantity;
+                item.querySelector('.desc__quantity-nth').textContent = obj.quantity;
+            } else {
+                const cartItemsBoxEl = document.querySelector('.cart__items-box');
+
+                const itemEl = document.createElement('div');
+                itemEl.classList.add('cart__item');
+                itemEl.id = obj.id;
+                cartItemsBoxEl.appendChild(itemEl);
+
+                const itemImgEl = document.createElement('img');
+                itemImgEl.classList.add('cart__item-img');
+                itemImgEl.src = obj.img_src;
+                itemImgEl.alt = obj.img_name;
+                itemEl.appendChild(itemImgEl);
+
+                const descEl = document.createElement('div');
+                descEl.classList.add('cart__item-desc');
+                itemEl.appendChild(descEl);
+
+                const descTitleEl = document.createElement('h2');
+                descTitleEl.classList.add('desc__title');
+                descTitleEl.textContent = obj.product_name;
+                descEl.appendChild(descTitleEl);
+
+                const descTextBoxEl = document.createElement('div');
+                descTextBoxEl.classList.add('desc__text-box');
+                descEl.appendChild(descTextBoxEl);
+
+                const descPriceEl = document.createElement('p');
+                descPriceEl.classList.add('desc__text');
+                descPriceEl.classList.add('desc__price');
+                descPriceEl.textContent = 'Price: ';
+                descTextBoxEl.appendChild(descPriceEl);
+
+                const descPriceSpanEl = document.createElement('span');
+                descPriceSpanEl.textContent = obj.price;
+                descPriceEl.appendChild(descPriceSpanEl);
+
+                const descColorEl = document.createElement('p');
+                descColorEl.classList.add('desc__text');
+                descColorEl.classList.add('desc__color');
+                descColorEl.textContent = 'Color: ';
+                descTextBoxEl.appendChild(descColorEl);
+
+                const descColorSpanEl = document.createElement('span');
+                descColorSpanEl.textContent = obj.color;
+                descColorEl.appendChild(descColorSpanEl);
+
+                const descSizeEl = document.createElement('p');
+                descSizeEl.classList.add('desc__text');
+                descSizeEl.classList.add('desc__size');
+                descSizeEl.textContent = 'Size: ';
+                descTextBoxEl.appendChild(descSizeEl);
+
+                const descSizeSpanEl = document.createElement('span');
+                descSizeSpanEl.textContent = obj.size;
+                descSizeEl.appendChild(descSizeSpanEl);
+
+                const descQuantityEl = document.createElement('div');
+                descQuantityEl.classList.add('desc__quantity');
+                descTextBoxEl.appendChild(descQuantityEl);
+
+                const descQuantityTextEl = document.createElement('p');
+                descQuantityTextEl.classList.add('desc__text');
+                descQuantityTextEl.classList.add('desc__quantity-text');
+                descQuantityTextEl.textContent = 'Quantity: ';
+                descQuantityEl.appendChild(descQuantityTextEl);
+
+                const descQuantityNthEl = document.createElement('div');
+                descQuantityNthEl.classList.add('desc__quantity-nth');
+                descQuantityNthEl.textContent = ++obj.quantity;
+                descQuantityEl.appendChild(descQuantityNthEl);
+
+                const productCloseEl = document.createElement('img');
+                productCloseEl.classList.add('product__close');
+                productCloseEl.src = 'img/close.svg';
+                productCloseEl.alt = 'close';
+                descEl.appendChild(productCloseEl);
+            }
+        };
+
+        const productsLinkEl = document.querySelectorAll('.item-img__link');
+
+        productsLinkEl.forEach(element => {
+            element.addEventListener('click', function (e) {
+                const check = document.querySelector('.cart__items');
+                if (!check) {
+                    createBasket();
+                }
+                const count = productsData.filter(item => item.id == e.currentTarget.name);
+                createItem(...count);
+            });
+        });
+
+
+
+
     </script>
 </body>
 
