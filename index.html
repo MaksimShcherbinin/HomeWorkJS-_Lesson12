@@ -247,8 +247,7 @@
         const createItem = (obj) => {
             const item = document.getElementById(obj.id);
             if (item) {
-                ++obj.quantity;
-                item.querySelector('.desc__quantity-nth').textContent = obj.quantity;
+                item.querySelector('.desc__quantity-nth').textContent = ++obj.quantity;
             } else {
                 const cartItemsBoxEl = document.querySelector('.cart__items-box');
 
@@ -326,6 +325,16 @@
                 productCloseEl.src = 'img/close.svg';
                 productCloseEl.alt = 'close';
                 descEl.appendChild(productCloseEl);
+
+                productCloseEl.addEventListener('click', function (e) {
+                    obj.quantity = 0;
+                    itemEl.remove();
+                    if (!cartItemsBoxEl.children.length) {
+                        document.querySelector('.cart__items').remove();
+                    };
+                });
+
+
             }
         };
 
@@ -341,9 +350,6 @@
                 createItem(...count);
             });
         });
-
-
-
 
     </script>
 </body>
